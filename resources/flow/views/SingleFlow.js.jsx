@@ -87,6 +87,21 @@ class SingleFlow extends Binder {
     });
   }
 
+  _handleCheckBox(data, status) {
+    const { dispatch, history } = this.props;
+    const update_data = {
+      ...data,
+      status
+    }
+    dispatch(taskActions.sendUpdateTask(update_data)).then(taskRes => {
+      if(taskRes.success) {
+        // history.push(`/tasks/${taskRes.item._id}`)
+      } else {
+        alert("ERROR - Check logs");
+      }
+    });
+  }
+
   render() {
     const { showTaskForm, task, formHelpers } = this.state;
     const { 
@@ -157,20 +172,25 @@ class SingleFlow extends Binder {
               (isTaskListFetching ? <h2>Loading...</h2> : <h2>Empty.</h2>)
               :
               <div style={{ marginBottom: "5%", opacity: isTaskListFetching ? 0.5 : 1 }}>  
-                  {taskListItems.map((task, i) =>
-                    <div style={{display: "flex", flexDirection: "row"}} key={task._id + i}>
-                      <div>
-                      <div style={{display: "flex", flexDirection: "row", gap: "5%"}}>
-                        <input type="checkbox" style={{marginRight: "2%"}} value={task.name}/>
-                        <h3>{task.name}</h3>
-                      </div>
-                      <p>{task.description}</p>
-                      <button className="yt-btn x-small bordered">Comment</button>
-                      </div>
-                      <div style={{display: "flex", flexDirection: "column", justifyContent: "center"}}>
-                        <span>Bubble icon</span>
-                      </div>
-                    </div>
+                  {
+                    taskListItems.map((task, i) => {
+                      if(task.status !== "awaiting_approval") {
+                          return (                   
+                            <div style={{display: "flex", flexDirection: "row"}} key={task._id + i}>
+                              <div>
+                              <div style={{display: "flex", flexDirection: "row", gap: "5%"}}>
+                                <input type="checkbox" style={{marginRight: "2%"}} value={task.name} onChange={() => this._handleCheckBox(task, "awaiting_approval")}/>
+                                <h3>{task.name}</h3>
+                              </div>
+                              <p>{task.description}</p>
+                              <button className="yt-btn x-small bordered">Comment</button>
+                              </div>
+                              <div style={{display: "flex", flexDirection: "column", justifyContent: "center"}}>
+                                <span>Bubble icon</span>
+                              </div>
+                            </div>)
+                        }
+                    }
                   )}
 
               </div>
@@ -194,6 +214,27 @@ class SingleFlow extends Binder {
             <hr />
             <div>
               <h3>Completed Task</h3>
+              {
+                    taskListItems.map((task, i) => {
+                      console.log("%c Line:176 🍖 task", "color:#3f7cff", task);
+                      if(task.status === "awaiting_approval") {
+                          return (                   
+                            <div style={{display: "flex", flexDirection: "row"}} key={task._id + i}>
+                              <div>
+                              <div style={{display: "flex", flexDirection: "row", gap: "5%"}}>
+                                <input checked={true} type="checkbox" style={{marginRight: "2%"}} value={task.name} onChange={() => this._handleCheckBox(task, "open")}/>
+                                <h3>{task.name}</h3>
+                              </div>
+                              <p>{task.description}</p>
+                              <button className="yt-btn x-small bordered">Comment</button>
+                              </div>
+                              <div style={{display: "flex", flexDirection: "column", justifyContent: "center"}}>
+                                <span>Bubble icon</span>
+                              </div>
+                            </div>)
+                        }
+                    }
+                  )}
             </div>
           </div>
         }
