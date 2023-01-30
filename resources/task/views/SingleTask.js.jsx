@@ -31,8 +31,24 @@ class SingleTask extends Binder {
     dispatch(taskActions.fetchSingleIfNeeded(match.params.taskId));
   }
 
+  handleApprovalButton(data, status) {
+    const { dispatch } = this.props;
+    const update_data = {
+      ...data,
+      status
+    }
+    dispatch(taskActions.sendUpdateTask(update_data)).then(taskRes => {
+      if(taskRes.success) {
+        // history.push(`/tasks/${taskRes.item._id}`)
+      } else {
+        alert("ERROR - Check logs");
+      }
+    });
+  }
+
   render() {
-    const { taskStore } = this.props;
+    const { taskStore, user } = this.props;
+    const { loggedIn } = user
 
     /**
      * use the selected.getItem() utility to pull the actual task object from the map
@@ -55,11 +71,21 @@ class SingleTask extends Binder {
         { isEmpty ?
           (isFetching ? <h2>Loading...</h2> : <h2>Empty.</h2>)
           :
-          <div style={{ opacity: isFetching ? 0.5 : 1 }}>
-            <h1> { selectedTask.name }
-            </h1>
+          <div style={{marginTop: "5%", opacity: isFetching ? 0.5 : 1 }}>
+            { (selectedTask.status == "awaiting_approval" || selectedTask.status == "approved") && <input checked={true} type="checkbox" style={{height: "30px", width: "30px", accentColor: selectedTask.status == "approved" ? "#588728" : "grey"}} />}
+            <span style={{fontStyle: "bold", fontSize: "50px"}}> { selectedTask.name } </span>
+            <p>{selectedTask.description}</p>
+            {
+              (loggedIn.user.roles[0] === "admin" && selectedTask.status === "awaiting_approval") && (
+                <div>
+              <button style={{marginRight: "5%"}} className="yt-btn success" onClick={() => this.handleApprovalButton(selectedTask, "approved")}>Approve</button>
+              <button className="yt-btn danger" onClick={() => this.handleApprovalButton(selectedTask, "open")}>Reject</button>
+              </div>
+              )
+            }
+
             <hr/>
-            <p> <em>Other characteristics about the Task would go here.</em></p>
+            <p> <em>Other characteristics about TTTTthe Task would go here.</em></p>
             <br/>
             <Link to={`${this.props.match.url}/update`}> Update Task </Link>
           </div>
@@ -79,7 +105,8 @@ const mapStoreToProps = (store) => {
   * differentiated from the React component's internal state
   */
   return {
-    taskStore: store.task
+    taskStore: store.task,
+    user: store.user
   }
 }
 

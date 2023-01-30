@@ -24,7 +24,7 @@ class CheckboxInput extends Binder {
     }
   }
 
-  _handleInputChange(e) {
+  _handleInputChange(e, action) {
     const event = e;
     const checked = e.target.checked;
     const value = checked;
@@ -35,6 +35,7 @@ class CheckboxInput extends Binder {
       , value: checked
     });
     this.props.change(event);
+    action()
   }
 
   render() {

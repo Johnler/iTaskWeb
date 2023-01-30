@@ -21,6 +21,7 @@ import Binder from '../../../global/components/Binder.js.jsx';
 // import resource components
 import FlowLayout from '../components/FlowLayout.js.jsx';
 import TaskForm from '../../task/components/TaskForm.js.jsx';
+import CheckboxInput from '../../../global/components/forms/CheckboxInput.js.jsx'
 
 class SingleFlow extends Binder {
   constructor(props) {
@@ -174,11 +175,12 @@ class SingleFlow extends Binder {
               <div style={{ marginBottom: "5%", opacity: isTaskListFetching ? 0.5 : 1 }}>  
                   {
                     taskListItems.map((task, i) => {
-                      if(task.status !== "awaiting_approval") {
+                      if(task.status !== "awaiting_approval" || task.status !== "approved") {
                           return (                   
                             <div style={{display: "flex", flexDirection: "row"}} key={task._id + i}>
                               <div>
                               <div style={{display: "flex", flexDirection: "row", gap: "5%"}}>
+                                {/* <CheckboxInput label={task.name} value={task.name} onChange={() => this._handleCheckBox(task, "awaiting_approval")}/> */}
                                 <input type="checkbox" style={{marginRight: "2%"}} value={task.name} onChange={() => this._handleCheckBox(task, "awaiting_approval")}/>
                                 <Link to={`/tasks/${task._id}`}><h3>{task.name}</h3></Link>
                               </div>
@@ -216,11 +218,12 @@ class SingleFlow extends Binder {
               <h3>Completed Task</h3>
               {
                     taskListItems.map((task, i) => {
-                      if(task.status === "awaiting_approval") {
+                      if(task.status === "awaiting_approval" || task.status === "approved" ) {
                           return (                   
                             <div style={{display: "flex", flexDirection: "row"}} key={task._id + i}>
                               <div>
                               <div style={{display: "flex", flexDirection: "row", gap: "5%"}}>
+                                {/* <CheckboxInput checked={true} label={task.name} value={task.name} change={() => this._handleCheckBox(task, "open")}/> */}
                                 <input checked={true} type="checkbox" style={{marginRight: "2%"}} value={task.name} onChange={() => this._handleCheckBox(task, "open")}/>
                                 <Link to={`/tasks/${task._id}`}><h3 style={{textDecoration: "line-through"}}>{task.name}</h3></Link>
                               </div>
