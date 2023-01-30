@@ -175,7 +175,7 @@ class SingleFlow extends Binder {
               <div style={{ marginBottom: "5%", opacity: isTaskListFetching ? 0.5 : 1 }}>  
                   {
                     taskListItems.map((task, i) => {
-                      if(task.status !== "awaiting_approval" || task.status !== "approved") {
+                      if(task.status === "open") {
                           return (                   
                             <div style={{display: "flex", flexDirection: "row"}} key={task._id + i}>
                               <div>
@@ -227,12 +227,12 @@ class SingleFlow extends Binder {
                                 <input checked={true} type="checkbox" style={{marginRight: "2%"}} value={task.name} onChange={() => this._handleCheckBox(task, "open")}/>
                                 <Link to={`/tasks/${task._id}`}><h3 style={{textDecoration: "line-through"}}>{task.name}</h3></Link>
                               </div>
-                              <p>{task.description}</p>
-                              <button className="yt-btn x-small bordered">Comment</button>
+                              {/* <p>{task.description}</p>
+                              <button className="yt-btn x-small bordered">Comment</button> */}
                               </div>
-                              <div style={{display: "flex", flexDirection: "column", justifyContent: "center"}}>
+                              {/* <div style={{display: "flex", flexDirection: "column", justifyContent: "center"}}>
                                 <span>Bubble icon</span>
-                              </div>
+                              </div> */}
                             </div>)
                         }
                     }
