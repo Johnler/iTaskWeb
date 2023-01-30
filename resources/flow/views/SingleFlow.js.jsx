@@ -168,7 +168,7 @@ class SingleFlow extends Binder {
                       <button className="yt-btn x-small bordered">Comment</button>
                       </div>
                       <div style={{display: "flex", flexDirection: "column", justifyContent: "center"}}>
-                        <button className="yt-btn x-small bordered">C</button>
+                        <span>Bubble icon</span>
                       </div>
                     </div>
                   )}
@@ -190,6 +190,11 @@ class SingleFlow extends Binder {
               : 
               <button className="yt-btn" style={{marginTop: "10%"}} onClick={() => this.setState({showTaskForm: true})}>Add new task</button>
             }
+
+            <hr />
+            <div>
+              <h3>Completed Task</h3>
+            </div>
           </div>
         }
       </FlowLayout>
