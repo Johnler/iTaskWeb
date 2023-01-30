@@ -180,7 +180,7 @@ class SingleFlow extends Binder {
                               <div>
                               <div style={{display: "flex", flexDirection: "row", gap: "5%"}}>
                                 <input type="checkbox" style={{marginRight: "2%"}} value={task.name} onChange={() => this._handleCheckBox(task, "awaiting_approval")}/>
-                                <h3>{task.name}</h3>
+                                <Link to={`/tasks/${task._id}`}><h3>{task.name}</h3></Link>
                               </div>
                               <p>{task.description}</p>
                               <button className="yt-btn x-small bordered">Comment</button>
@@ -216,14 +216,13 @@ class SingleFlow extends Binder {
               <h3>Completed Task</h3>
               {
                     taskListItems.map((task, i) => {
-                      console.log("%c Line:176 🍖 task", "color:#3f7cff", task);
                       if(task.status === "awaiting_approval") {
                           return (                   
                             <div style={{display: "flex", flexDirection: "row"}} key={task._id + i}>
                               <div>
                               <div style={{display: "flex", flexDirection: "row", gap: "5%"}}>
                                 <input checked={true} type="checkbox" style={{marginRight: "2%"}} value={task.name} onChange={() => this._handleCheckBox(task, "open")}/>
-                                <h3>{task.name}</h3>
+                                <Link to={`/tasks/${task._id}`}><h3 style={{textDecoration: "line-through"}}>{task.name}</h3></Link>
                               </div>
                               <p>{task.description}</p>
                               <button className="yt-btn x-small bordered">Comment</button>
