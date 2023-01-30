@@ -78,12 +78,10 @@ class FlowList extends Binder {
         { isEmpty ?
           (isFetching ? <h2>Loading...</h2> : <h2>Empty.</h2>)
           :
-          <div style={{ opacity: isFetching ? 0.5 : 1 }}>
-            <ul>
+          <div style={{ display: "flex", gap: "5%",opacity: isFetching ? 0.5 : 1 }}>
               {flowListItems.map((flow, i) =>
                 <FlowListItem key={flow._id + i} flow={flow} />
               )}
-            </ul>
           </div>
         }
       </FlowLayout>

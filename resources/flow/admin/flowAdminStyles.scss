@@ -1,0 +1,23 @@
+.flowCard {
+    border: 2px solid $divider-color;
+    display: flex;
+    flex-direction: column;
+    min-height: 400px;
+    min-width: 400px;
+}
+
+.flowCardName {
+    font-size: xx-large;
+    font-weight: bold;
+    margin: 5%;
+}
+
+.flowCardHorizontalLine {
+    backgroundColor: $divider-color
+}
+
+.flowCardContent {
+    margin-left: 5%;
+    margin-right: 5%;
+    margin-bottom: 5%;
+}
