@@ -18,10 +18,10 @@ const FlowListItem = ({
         <div className="flowCardContent">
           <hr className="flowCardHorizontalLine" />
             {
-              tasks.length ? tasks.map(data => (
-                <div>
-              <input type="checkbox" value={data.name}/>
-              <span>{data.name}</span>
+              tasks.length ? tasks.map((data, i) => (
+              <div key={data._id + i}>
+                <input type="checkbox" value={data.name}/>
+                <span>{data.name}</span>
               </ div>
               )) : null
             }

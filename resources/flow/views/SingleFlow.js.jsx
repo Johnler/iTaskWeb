@@ -142,23 +142,37 @@ class SingleFlow extends Binder {
           (isFlowFetching ? <h2>Loading...</h2> : <h2>Empty.</h2>)
           :
           <div style={{ opacity: isFlowFetching ? 0.5 : 1 }}>
-            <h1> { selectedFlow.name }
-            </h1>
-            <p> { selectedFlow.description }</p>
-            <Link className="yt-btn x-small bordered" to={`${this.props.match.url}/update`}> Edit </Link>
+            <div style={{display: "flex", flexDirection: "row", gap: "10%"}}>
+              <div style={{flex: "2"}}>
+                <h1> { selectedFlow.name }
+                </h1>
+                <p> { selectedFlow.description }</p>
+              </div>
+              <div style={{display: "flex", flexDirection: "column", justifyContent: "center"}}>
+                <Link style={{height: "30%"}} className="yt-btn x-small bordered" to={`${this.props.match.url}/update`}> Edit </Link>
+              </div>
+            </div>
             <hr/>
             { isTaskListEmpty ?
               (isTaskListFetching ? <h2>Loading...</h2> : <h2>Empty.</h2>)
               :
-              <div style={{ opacity: isTaskListFetching ? 0.5 : 1 }}>
-                <ul>
+              <div style={{ marginBottom: "5%", opacity: isTaskListFetching ? 0.5 : 1 }}>  
                   {taskListItems.map((task, i) =>
-                    <li key={task._id + i}>
-                      <h3>{task.name}</h3>
+                    <div style={{display: "flex", flexDirection: "row"}} key={task._id + i}>
+                      <div>
+                      <div style={{display: "flex", flexDirection: "row", gap: "5%"}}>
+                        <input type="checkbox" style={{marginRight: "2%"}} value={task.name}/>
+                        <h3>{task.name}</h3>
+                      </div>
                       <p>{task.description}</p>
-                    </li>
+                      <button className="yt-btn x-small bordered">Comment</button>
+                      </div>
+                      <div style={{display: "flex", flexDirection: "column", justifyContent: "center"}}>
+                        <button className="yt-btn x-small bordered">C</button>
+                      </div>
+                    </div>
                   )}
-                </ul>
+
               </div>
             }
             { !isNewTaskEmpty && showTaskForm ?
@@ -174,7 +188,7 @@ class SingleFlow extends Binder {
                 />
               </div>
               : 
-              <button className="yt-btn" onClick={() => this.setState({showTaskForm: true})}>Add new task</button>
+              <button className="yt-btn" style={{marginTop: "10%"}} onClick={() => this.setState({showTaskForm: true})}>Add new task</button>
             }
           </div>
         }
