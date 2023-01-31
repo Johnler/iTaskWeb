@@ -72,7 +72,7 @@ class SingleTask extends Binder {
           (isFetching ? <h2>Loading...</h2> : <h2>Empty.</h2>)
           :
           <div style={{marginTop: "5%", opacity: isFetching ? 0.5 : 1 }}>
-            { (selectedTask.status == "awaiting_approval" || selectedTask.status == "approved") && <input checked={true} type="checkbox" style={{height: "30px", width: "30px", accentColor: selectedTask.status == "approved" ? "#588728" : "grey"}} />}
+            { (selectedTask.status == "awaiting_approval" || selectedTask.status == "approved") ? (<input checked={true} type="checkbox" style={{height: "30px", width: "30px", accentColor: selectedTask.status == "approved" ? "#588728" : "grey"}} />) : (<input checked={false} type="checkbox" style={{height: "30px", width: "30px", accentColor: "grey"}} />)}
             <span style={{fontStyle: "bold", fontSize: "50px"}}> { selectedTask.name } </span>
             <p>{selectedTask.description}</p>
             {
