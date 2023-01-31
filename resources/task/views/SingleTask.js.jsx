@@ -87,7 +87,6 @@ class SingleTask extends Binder {
 
   render() {
     const { taskStore, user, notes } = this.props;
-    console.log("%c Line:86 🍎 this.props", "color:#e41a6a", this.props);
     const { data = [] } = notes
     const { byId } = taskStore ;
     const { loggedIn } = user
@@ -143,8 +142,8 @@ class SingleTask extends Binder {
                     <div style={{display: "flex", flexDirection: "row"}}>
                       <div className="-profile-pic" style={profileImg}> </div>
                       <div style={{display: "flex", flexDirection: "column"}} key={data._id + i}>
-                        <span style={{fontWeight: "bold"}}>Test Test</span>
-                        <span style={{fontSize: "12px", opacity: "0.5"}}>4/1/2000 @ 3:30pm</span>
+                        <span style={{fontWeight: "bold"}}>{data.firstname} {data.lastname}</span>
+                        <span style={{fontSize: "12px", opacity: "0.5"}}>{data.created}</span>
                         <span>{data.content}</span>
                       </div>
                     </div>
@@ -170,7 +169,6 @@ SingleTask.propTypes = {
 }
 
 const mapStoreToProps = (store) => {
-  console.log("%c Line:169 🌰 store", "color:#ed9ec7", store);
   /**
   * NOTE: Yote refer's to the global Redux 'state' as 'store' to keep it mentally
   * differentiated from the React component's internal state

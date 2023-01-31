@@ -40,7 +40,8 @@ class SingleFlow extends Binder {
     this._bind(
       '_handleFormChange'
       , '_handleTaskSubmit'
-    );
+      , '_handleCheckBox'
+    )
   }
 
   componentDidMount() {
@@ -82,6 +83,7 @@ class SingleFlow extends Binder {
           showTaskForm: false
           , task: _.cloneDeep(defaultTask.obj)
         })
+        dispatch(taskActions.fetchListIfNeeded('_flow', match.params.flowId));
       } else {
         alert("ERROR - Check logs");
       }
@@ -89,7 +91,7 @@ class SingleFlow extends Binder {
   }
 
   _handleCheckBox(data, status) {
-    const { dispatch, history } = this.props;
+    const { defaultTask, dispatch, history, match } = this.props;
     const update_data = {
       ...data,
       status

@@ -7,7 +7,6 @@ const FlowListItem = ({
   flow
 }) => {
   const { _id, name, tasks=[] } = flow 
-  console.log("%c Line:8 🥓 flow", "color:#e41a6a", flow);
   return (
     // <li>
     //   <Link to={`/flows/${flow._id}`}> {flow.name}</Link>
