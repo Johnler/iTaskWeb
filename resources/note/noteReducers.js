@@ -220,7 +220,8 @@ function note(state = {
    * NOTE: when requesting a list, if args are undefined, the lists defaults to
    * lists['all']
    */
-  , lists: []
+  , lists: {}
+  , data: []
 
 }, action) {
   /**
@@ -531,11 +532,10 @@ function note(state = {
         ...state
         , byId: newIdMap
         , data: action.list
-        // , lists: {
-        //   ...state.lists
-        //   , action.list
-          // ,[action.listArgs[0]]: noteList(state.lists[action.listArgs[0]], action)
-        // }
+        , lists: {
+          ...state.lists
+          ,[action.listArgs[0]]: noteList(state.lists[action.listArgs[0]], action)
+        }
       }
       break;
     }
