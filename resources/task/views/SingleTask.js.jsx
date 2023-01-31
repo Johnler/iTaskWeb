@@ -25,6 +25,13 @@ import TaskLayout from '../components/TaskLayout.js.jsx';
 class SingleTask extends Binder {
   constructor(props) {
     super(props);
+    this.state = {
+      comments: ""
+    }
+    this._bind(
+      'handleInput',
+      'handleAddCommentButton'
+    );
   }
 
   componentDidMount() {
@@ -46,26 +53,46 @@ class SingleTask extends Binder {
         alert("ERROR - Check logs");
       }
     });
+
   }
 
   handleAddCommentButton(e){
-    const { dispatch } = this.props;
+    const { dispatch, taskStore, user, flow,match } = this.props;
     e.preventDefault();
-    dispatch(noteActions.sendCreateNote(this.state.note)).then(noteRes => {
-      if(noteRes.success) {
-        dispatch(noteActions.invalidateList());
-        // history.push(`/notes/${noteRes.item._id}`)
-      } else {
-        alert("ERROR - Check logs");
-      }
-    });
+    const note_data = {
+      content: this.state.comments,
+      _flow: flow.selected.id,
+      _user: user.loggedIn.user._id,
+      _task: taskStore.selected.id
+    }
+    if(this.state.comments){
+      this.setState({comments: ""})
+      dispatch(noteActions.sendCreateNote(note_data)).then(noteRes => {
+        if(noteRes.success) {
+          dispatch(noteActions.invalidateList());
+          // history.push(`/notes/${noteRes.item._id}`)
+          dispatch(noteActions.fetchList(["_task", match.params.taskId]))
+        } else {
+          alert("ERROR - Check logs");
+        }
+      });
+    }
+
+  }
+
+  handleInput(e) {
+    const { value, name } = e.target
+    this.setState({[name]: value})
   }
 
   render() {
     const { taskStore, user, notes } = this.props;
+    console.log("%c Line:86 🍎 this.props", "color:#e41a6a", this.props);
     const { data = [] } = notes
     const { byId } = taskStore ;
     const { loggedIn } = user
+
+    console.log(this.state)
     
     let pictureUrl = '/img/defaults/profile.png';
     let profileImg = {backgroundImage: `url(${pictureUrl})`};
@@ -127,9 +154,9 @@ class SingleTask extends Binder {
             </div>
             <hr/>
             <div>
-              <textarea style={{width: "40%", height: "150px", resize: "none"}} />
+              <textarea name="comments" value={this.state.comments} onChange={this.handleInput} style={{width: "40%", height: "150px", resize: "none"}} />
               <br />
-              <button className="yt-btn primary bordered x-small">Add Comment</button>
+              <button className="yt-btn primary bordered x-small" onClick={this.handleAddCommentButton}>Add Comment</button>
             </div>
           </div>
         }
@@ -143,6 +170,7 @@ SingleTask.propTypes = {
 }
 
 const mapStoreToProps = (store) => {
+  console.log("%c Line:169 🌰 store", "color:#ed9ec7", store);
   /**
   * NOTE: Yote refer's to the global Redux 'state' as 'store' to keep it mentally
   * differentiated from the React component's internal state
@@ -150,7 +178,8 @@ const mapStoreToProps = (store) => {
   return {
     taskStore: store.task,
     user: store.user,
-    notes: store.note
+    notes: store.note,
+    flow: store.flow
   }
 }
 

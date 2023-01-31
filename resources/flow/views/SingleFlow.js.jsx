@@ -185,10 +185,9 @@ class SingleFlow extends Binder {
                                 <Link to={`/tasks/${task._id}`}><h3>{task.name}</h3></Link>
                               </div>
                               <p>{task.description}</p>
-                              <button className="yt-btn x-small bordered">Comment</button>
+                              <Link className="yt-btn x-small bordered" to={`/tasks/${task._id}`}>Comment</Link>
                               </div>
                               <div style={{display: "flex", flexDirection: "column", justifyContent: "center"}}>
-                                <span>Bubble icon</span>
                               </div>
                             </div>)
                         }
