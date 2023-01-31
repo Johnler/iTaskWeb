@@ -110,7 +110,7 @@ class SingleTask extends Binder {
             <hr/>
             <div>
               {
-                 notes.lists.map((data, i) => {
+                 notes.data.length ? notes.data.map((data, i) => {
                   return (
                     <div style={{display: "flex", flexDirection: "row"}}>
                       <div className="-profile-pic" style={profileImg}> </div>
@@ -121,7 +121,7 @@ class SingleTask extends Binder {
                       </div>
                     </div>
                   )
-                })
+                }) : null
               }
             </div>
             <hr/>

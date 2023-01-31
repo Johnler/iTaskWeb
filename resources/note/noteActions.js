@@ -369,6 +369,7 @@ function receiveNoteList(json, listArgs) {
     type: RECEIVE_NOTE_LIST
     , listArgs
     , list: json.notes
+    , data: json.notes
     , success: json.success
     , error: json.message
     , receivedAt: Date.now()

@@ -530,7 +530,7 @@ function note(state = {
       nextState = {
         ...state
         , byId: newIdMap
-        , lists: action.list
+        , data: action.list
         // , lists: {
         //   ...state.lists
         //   , action.list
