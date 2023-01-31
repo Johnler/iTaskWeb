@@ -63,6 +63,7 @@ class SingleTask extends Binder {
 
   render() {
     const { taskStore, user, notes } = this.props;
+    const { data = [] } = notes
     const { byId } = taskStore ;
     const { loggedIn } = user
     
@@ -110,7 +111,7 @@ class SingleTask extends Binder {
             <hr/>
             <div>
               {
-                 notes.data.length ? notes.data.map((data, i) => {
+                 data.length ? data.map((data, i) => {
                   return (
                     <div style={{display: "flex", flexDirection: "row"}}>
                       <div className="-profile-pic" style={profileImg}> </div>
