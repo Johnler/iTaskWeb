@@ -444,7 +444,7 @@ export function fetchList(...listArgs) {
         apiTarget += `/${listArgs[i]}`;
       }
     }
-    return apiUtils.callAPI(apiTarget).then(
+    return apiUtils.callAPI(apiTarget.replace(",", "/")).then(
       json => dispatch(receiveNoteList(json, listArgs))
     )
   }

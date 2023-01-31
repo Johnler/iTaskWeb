@@ -13,6 +13,7 @@ import { Link, withRouter } from 'react-router-dom';
 
 // import actions
 import * as taskActions from '../taskActions';
+import * as noteActions from '../../note/noteActions'
 
 // import global components
 import Binder from '../../../global/components/Binder.js.jsx';
@@ -27,8 +28,9 @@ class SingleTask extends Binder {
   }
 
   componentDidMount() {
-    const { dispatch, match } = this.props;
+    const { dispatch, match, taskStore } = this.props;
     dispatch(taskActions.fetchSingleIfNeeded(match.params.taskId));
+    dispatch(noteActions.fetchList(["_task", match.params.taskId]))
   }
 
   handleApprovalButton(data, status) {
@@ -46,9 +48,27 @@ class SingleTask extends Binder {
     });
   }
 
+  handleAddCommentButton(e){
+    const { dispatch } = this.props;
+    e.preventDefault();
+    dispatch(noteActions.sendCreateNote(this.state.note)).then(noteRes => {
+      if(noteRes.success) {
+        dispatch(noteActions.invalidateList());
+        // history.push(`/notes/${noteRes.item._id}`)
+      } else {
+        alert("ERROR - Check logs");
+      }
+    });
+  }
+
   render() {
-    const { taskStore, user } = this.props;
+    const { taskStore, user, notes } = this.props;
+    const { byId } = taskStore ;
     const { loggedIn } = user
+    
+    let pictureUrl = '/img/defaults/profile.png';
+    let profileImg = {backgroundImage: `url(${pictureUrl})`};
+
 
     /**
      * use the selected.getItem() utility to pull the actual task object from the map
@@ -72,8 +92,11 @@ class SingleTask extends Binder {
           (isFetching ? <h2>Loading...</h2> : <h2>Empty.</h2>)
           :
           <div style={{marginTop: "5%", opacity: isFetching ? 0.5 : 1 }}>
-            { (selectedTask.status == "awaiting_approval" || selectedTask.status == "approved") ? (<input checked={true} type="checkbox" style={{height: "30px", width: "30px", accentColor: selectedTask.status == "approved" ? "#588728" : "grey"}} />) : (<input checked={false} type="checkbox" style={{height: "30px", width: "30px", accentColor: "grey"}} />)}
-            <span style={{fontStyle: "bold", fontSize: "50px"}}> { selectedTask.name } </span>
+            <div style={{display: "flex", flexDirection: "row", gap: "5%"}}>
+              { (selectedTask.status == "awaiting_approval" || selectedTask.status == "approved") ? (<input checked={true} readOnly type="checkbox" style={{height: "30px", width: "30px", accentColor: selectedTask.status == "approved" ? "#588728" : "grey"}} />) : (<input readOnly checked={false} type="checkbox" style={{height: "30px", width: "30px", accentColor: "grey"}} />)}
+              <span style={{fontStyle: "bold", fontSize: "50px"}}> { selectedTask.name } </span>
+              <Link to={`${this.props.match.url}/update`}> Update Task </Link>
+            </div>
             <p>{selectedTask.description}</p>
             {
               (loggedIn.user.roles[0] === "admin" && selectedTask.status === "awaiting_approval") && (
@@ -85,9 +108,28 @@ class SingleTask extends Binder {
             }
 
             <hr/>
-            <p> <em>Other characteristics about TTTTthe Task would go here.</em></p>
-            <br/>
-            <Link to={`${this.props.match.url}/update`}> Update Task </Link>
+            <div>
+              {
+                 notes.lists.map((data, i) => {
+                  return (
+                    <div style={{display: "flex", flexDirection: "row"}}>
+                      <div className="-profile-pic" style={profileImg}> </div>
+                      <div style={{display: "flex", flexDirection: "column"}} key={data._id + i}>
+                        <span style={{fontWeight: "bold"}}>Test Test</span>
+                        <span style={{fontSize: "12px", opacity: "0.5"}}>4/1/2000 @ 3:30pm</span>
+                        <span>{data.content}</span>
+                      </div>
+                    </div>
+                  )
+                })
+              }
+            </div>
+            <hr/>
+            <div>
+              <textarea style={{width: "40%", height: "150px", resize: "none"}} />
+              <br />
+              <button className="yt-btn primary bordered x-small">Add Comment</button>
+            </div>
           </div>
         }
       </TaskLayout>
@@ -106,7 +148,8 @@ const mapStoreToProps = (store) => {
   */
   return {
     taskStore: store.task,
-    user: store.user
+    user: store.user,
+    notes: store.note
   }
 }
 
