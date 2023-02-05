@@ -10,6 +10,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
+import moment from 'moment'
 
 // import actions
 import * as taskActions from '../taskActions';
@@ -143,7 +144,7 @@ class SingleTask extends Binder {
                       <div className="-profile-pic" style={profileImg}> </div>
                       <div style={{display: "flex", flexDirection: "column"}} key={data._id + i}>
                         <span style={{fontWeight: "bold"}}>{data.firstname} {data.lastname}</span>
-                        <span style={{fontSize: "12px", opacity: "0.5"}}>{data.created}</span>
+                        <span style={{fontSize: "12px", opacity: "0.5"}}>{moment(data.created).format("M/D/YYYY @ H:mm a")}</span>
                         <span>{data.content}</span>
                       </div>
                     </div>
