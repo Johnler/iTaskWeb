@@ -47,6 +47,7 @@ class CheckboxInput extends Binder {
       , name
       , required
       , value
+      , labelClick
     } = this.props;
     return (
       <div className="input-group">
@@ -59,7 +60,7 @@ class CheckboxInput extends Binder {
           type="checkbox"
           value={value}
         />
-        <label htmlFor={name}> {label} </label>
+        <label htmlFor={name} onClick={() => labelClick()}> {label} </label>
         <br/>
         <small className="help-text"><em>{helpText}</em></small>
       </div>
