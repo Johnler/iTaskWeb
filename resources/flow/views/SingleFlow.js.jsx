@@ -84,7 +84,9 @@ class SingleFlow extends Binder {
           showTaskForm: false
           , task: _.cloneDeep(defaultTask.obj)
         })
+        dispatch(flowActions.invalidateList())
         dispatch(taskActions.fetchListIfNeeded('_flow', match.params.flowId));
+        dispatch(flowActions.fetchListIfNeeded('all'));
       } else {
         alert("ERROR - Check logs");
       }
