@@ -176,17 +176,22 @@ class SingleFlow extends Binder {
               :
               <div style={{ marginBottom: "5%", opacity: isTaskListFetching ? 0.5 : 1 }}>  
                   {
-                    taskListItems.map((task, i) => {
+                    taskListItems ? (taskListItems.map((task, i) => {
                       if(task.status === "open") {
                           return (                   
                             <div style={{display: "flex", flexDirection: "row"}} key={task._id + i}>
                               <div>
-                              <div style={{display: "flex", flexDirection: "row", gap: "5%"}}>
-                                {/* <CheckboxInput label={task.name} value={task.name} onChange={() => this._handleCheckBox(task, "awaiting_approval")}/> */}
-                                <input type="checkbox" style={{marginRight: "2%"}} value={task.name} onChange={() => this._handleCheckBox(task, "awaiting_approval")}/>
-                                <Link to={`/tasks/${task._id}`}><h3>{task.name}</h3></Link>
+                              <div style={{display: "flex", flexDirection: "row"}}>
+                                <CheckboxInput 
+                                
+                                value={false} 
+                                change={() => this._handleCheckBox(task, "awaiting_approval")}/>
+                                {/* <input type="checkbox" style={{marginRight: "2%"}} value={task.name} onChange={() => this._handleCheckBox(task, "awaiting_approval")}/> */}
+                                <div>
+                                  <Link to={`/tasks/${task._id}`}><h3>{task.name}</h3></Link>
+                                  <p>{task.description}</p>
+                                </div>
                               </div>
-                              <p>{task.description}</p>
                               <Link className="yt-btn x-small bordered" to={`/tasks/${task._id}`}>Comment</Link>
                               </div>
                               <div style={{display: "flex", flexDirection: "column", justifyContent: "center"}}>
@@ -194,7 +199,8 @@ class SingleFlow extends Binder {
                             </div>)
                         }
                     }
-                  )}
+                  )) : null
+                }
 
               </div>
             }
@@ -218,18 +224,24 @@ class SingleFlow extends Binder {
             <div>
               <h3>Completed Task</h3>
               {
-                    taskListItems.map((task, i) => {
+                   taskListItems ? (taskListItems.map((task, i) => {
                       if(task.status === "awaiting_approval" || task.status === "approved" ) {
                           return (                   
                             <div style={{display: "flex", flexDirection: "row"}} key={task._id + i}>
                               <div>
-                              <div style={{display: "flex", flexDirection: "row", gap: "5%"}}>
-                                {/* <CheckboxInput checked={true} label={task.name} value={task.name} change={() => this._handleCheckBox(task, "open")}/> */}
-                                <input checked={true} type="checkbox" style={{marginRight: "2%"}} value={task.name} onChange={() => this._handleCheckBox(task, "open")}/>
-                                <Link to={`/tasks/${task._id}`}><h3 style={{textDecoration: "line-through"}}>{task.name}</h3></Link>
+                              <div style={{display: "flex", flexDirection: "row"}}>
+                                <CheckboxInput 
+                                  checked={true} 
+                                  value={task.name} 
+                                  change={() => this._handleCheckBox(task, "open")}/>
+                                {/* <input checked={true} type="checkbox" style={{marginRight: "2%"}} value={task.name} onChange={() => this._handleCheckBox(task, "open")}/> */}
+                                <div>
+                                  <Link to={`/tasks/${task._id}`}><h3 style={{textDecoration: "line-through"}}>{task.name}</h3></Link>
+                                  <p>{task.description}</p>
+                                </div>
                               </div>
-                              {/* <p>{task.description}</p>
-                              <button className="yt-btn x-small bordered">Comment</button> */}
+                              {/* <p>{task.description}</p> */}
+                              {/* <button className="yt-btn x-small bordered">Comment</button> */}
                               </div>
                               {/* <div style={{display: "flex", flexDirection: "column", justifyContent: "center"}}>
                                 <span>Bubble icon</span>
@@ -237,7 +249,8 @@ class SingleFlow extends Binder {
                             </div>)
                         }
                     }
-                  )}
+                  )) : null
+                }
             </div>
           </div>
         }

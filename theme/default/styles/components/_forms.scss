@@ -50,10 +50,11 @@ form {
 }
 
 .input-group {
+  margin-top: 35px;
   position: relative;
   display: inline-block;
   vertical-align: top;
-  width: 100%;
+  // width: 100%;
   margin-bottom: $gutter;
   @include base-font;
 

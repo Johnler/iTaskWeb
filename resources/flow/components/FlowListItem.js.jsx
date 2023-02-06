@@ -19,7 +19,7 @@ const FlowListItem = ({
             {
               tasks.length ? tasks.map((data, i) => (
               <div key={data._id + i}>
-                <input type="checkbox" value={data.name}/>
+                <input disabled type="checkbox" value={data.name}/>
                 <span>{data.name}</span>
               </ div>
               )) : null
